@@ -14,7 +14,6 @@ public class Bullets extends Polygon implements GameObject{
 		
 	}
 
-	@Override
 	public void paint(Graphics brush) {
 		// TODO Auto-generated method stub
 		brush.setColor(Color.YELLOW);
@@ -25,15 +24,31 @@ public class Bullets extends Polygon implements GameObject{
         		(int) points[3].y};
         brush.fillPolygon(x, y, 4);
 	}
+	
+	public boolean checkCollision(Enemy enemy) {
+		if(!this.active) {
+			return false;
+		}
+		for(Point p : this.getPoints()) {
+			if(enemy.contains(p)) {
+				this.active = false;
+				Ship.setScore(Ship.getScore()+1);
+				return true;
+			}
+		}
+		return false;
+	}
 
-	@Override
 	public void move() {
 		// TODO Auto-generated method stub
 		position.y -= SPEED;
 		if(position.y < 0) { active = false; }
 	}
-	 public boolean isActive() {
-		 return active;
-	 }
+	public boolean isActive() {
+		return active;
+	}
+	public void setActive(boolean active) {
+		this.active = active;
+	}
 
 }
