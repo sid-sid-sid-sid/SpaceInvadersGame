@@ -8,12 +8,16 @@ public class Ship extends Polygon implements GameObject, KeyListener {
 	private static final int SPEED = 5;
 	private int shotClock = 0; 
 	private int delay = 15; 
-	private YourGameName g;
-	public Ship(Point position, YourGameName s) {
+	private SpaceInvadersGame g;
+	private static int health = 10;
+	private static int score = 0;
+	
+	public Ship(Point position, SpaceInvadersGame s) {
 		super(new Point[]{
 	            new Point(-30, 15), new Point(30, 15), new Point(0, -15)
 	        }, position, 0);
 		this.g = s;
+		health = 10;
 	}
 	public void move() {
         if (left) position.x -= SPEED;
@@ -22,10 +26,12 @@ public class Ship extends Polygon implements GameObject, KeyListener {
         if (down) position.y += SPEED;
         if (shooting) {
         	if (shotClock == 0) {
-        		g.addBullet(new Bullets(new Point(position.x, position.y - 15)));
+        		g.addBullet(new Bullets(new Point(position.x + 13, position.y - 15)));
         		shotClock = delay;
         	}
-        	if(shotClock > 0) shotClock--;
+        	if(shotClock > 0) {
+        		shotClock--;
+        	}
         }
     }
     public void paint(Graphics brush) {
@@ -70,4 +76,22 @@ public class Ship extends Polygon implements GameObject, KeyListener {
     public void keyTyped(KeyEvent e) {
     	return;
     }
+	public static int getHealth() {
+		if(Ship.health == 0) {
+			return 0;
+		}
+		return Ship.health;
+	}
+	public static void setHealth(int health) {
+		if(Ship.health == 0) {
+			return;
+		}
+		Ship.health = health;
+	}
+	public static int getScore() {
+		return score;
+	}
+	public static void setScore(int score) {
+		Ship.score = score;
+	}
 }
